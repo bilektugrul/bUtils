@@ -1,0 +1,4 @@
+name: bUtils
+version: '${project.version}'
+main: io.github.bilektugrul.butils.BUtils
+api-version: '1.20'
