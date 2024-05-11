@@ -17,16 +17,17 @@ import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Utils {
 
     private static final DecimalFormat decimalFormat = new DecimalFormat("#,###.#");
 
     public static DateFormat dateFormat = new SimpleDateFormat("MM.dd.yyyy HH:mm:ss");
+
+    public static void noPermission(CommandSender sender) {
+        sender.sendMessage(getMessage("no-permission", sender));
+    }
 
     public static FileConfiguration getConfig() {
         return BUtilsLib.getInstance().getConfig();
@@ -93,6 +94,16 @@ public class Utils {
 
     public static String listToStringComma(List<String> list) {
         return String.join(", ", list);
+    }
+
+    public static boolean matchMode(String mode) {
+        mode = mode.toLowerCase(Locale.ROOT);
+        if (mode.contains("on") || mode.contains("true") || mode.contains("aç") || mode.contains("aktif")) {
+            return true;
+        } else if (mode.contains("off") || mode.contains("false") || mode.contains("kapat") || mode.contains("de-aktif") || mode.contains("deaktif")) {
+            return false;
+        }
+        return false;
     }
 
     public static String fileToString(File file) throws IOException {
