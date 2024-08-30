@@ -57,8 +57,47 @@ public class Utils {
         return BUtilsLib.getInstance().getConfig().getStringList(string);
     }
 
+    public static Location getLocation(YamlConfiguration yaml, String key) {
+        return (Location) yaml.get(key);
+    }
+
     public static String getMessage(String msg, CommandSender sender) {
         String message = listToString(colored(getStringList("messages." + msg)));
+        if (sender instanceof Player player) {
+            message = message.replace("%player%", player.getName());
+        }
+
+        return message
+                .replace("%prefix%", getColoredString("prefix"))
+                .replace("%prefix-2%", getColoredString("prefix-2"));
+    }
+
+    public static int getInt(FileConfiguration config, String path) {
+        return config.getInt(path);
+    }
+
+    public static long getLong(FileConfiguration config, String path) {
+        return config.getLong(path);
+    }
+
+    public static String getString(FileConfiguration config, String string) {
+        return config.getString(string);
+    }
+
+    public static String getColoredString(FileConfiguration config, String string) {
+        return colored(getString(config, string));
+    }
+
+    public static boolean getBoolean(FileConfiguration config, String string) {
+        return config.getBoolean(string);
+    }
+
+    public static List<String> getStringList(FileConfiguration config, String string) {
+        return config.getStringList(string);
+    }
+
+    public static String getMessage(FileConfiguration config, String msg, CommandSender sender) {
+        String message = listToString(colored(getStringList(config, "messages." + msg)));
         if (sender instanceof Player player) {
             message = message.replace("%player%", player.getName());
         }
@@ -86,6 +125,10 @@ public class Utils {
 
     public static String listToString(List<String> list) {
         return String.join("\n", list);
+    }
+
+    public static String listToStringLore(List<String> list) {
+        return String.join("||", list);
     }
 
     public static String listToStringNoNl(List<String> list) {
@@ -146,10 +189,6 @@ public class Utils {
             }
         }
         return !permMax.isEmpty() ? permMax.last() : def;
-    }
-
-    public static Location getLocation(YamlConfiguration yaml, String key) {
-        return (Location) yaml.get(key);
     }
 
     public static boolean isSameLoc(Location loc1, Location loc2) {
